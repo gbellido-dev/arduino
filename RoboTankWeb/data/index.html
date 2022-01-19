@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>RoboTank</title>
+
+
+	<script src="./wNumb.js"></script>
+
+	<link href="./nouislider.css" rel="stylesheet">
+	<script src="./nouislider.js"></script>
+
+</head>
+
+<body class="language-javascript">
+
+<style>
+
+#red, #blue {
+	margin: 30px;
+	display: inline-block;
+	height: 200px;
+}
+
+#colorpicker {
+	height: 240px;
+	width: 310px;
+	margin: 0 auto;
+	padding: 0px;
+	border: 1px solid #BFBFBF;
+}
+
+#red .noUi-connect {
+	background: #FFFFFF;
+}
+
+#blue .noUi-connect {
+	background: #FFFFFF;
+}
+
+#slider-toggle {
+	margin: 30px;
+	display: inline-block;
+	height: 50px;
+}
+#slider-toggle.off .noUi-handle {
+	border-color: red;
+}
+</style>
+
+
+	<div class="content" align="center">
+
+<h1>RoboTank</h1>
+
+<section>
+
+	<div class="view">
+		<div id="colorpicker">
+		<div class="sliders noUi-active" id="red"></div>
+		<div id="slider-toggle"></div>
+		<div class="sliders noUi-active" id="blue"></div>
+
+		<div id="text"></div>
+			
+<script>
+//var resultElement = document.getElementById('result');
+var textElement = document.getElementById('text');
+var sliders = document.getElementsByClassName('sliders');
+var motores = [0, 0];
+var state = 0;
+
+[].slice.call(sliders).forEach(function (slider, index) {
+
+    noUiSlider.create(slider, {
+    start: [0],
+    connect: [true, false],
+	orientation: "vertical",
+    range: {
+        'min': [-100,5],
+		'20%': [-80, 10],
+        '50%': [0, 10],
+		'80%': [80, 5],
+        'max': 100
+    },
+	direction: 'rtl',
+	pips: {
+        mode: 'values',
+        values: [100, 0, -100],
+		stepped: true,
+        density: 4
+    }
+    });
+	
+
+    // Bind the motors changing function to the update event.
+    slider.noUiSlider.on('update', function () {
+		motores[index] = slider.noUiSlider.get();
+		
+    });
+	
+	
+	
+	slider.noUiSlider.on('change', function (values, handle) {
+		if(state == 1){
+			if (values[handle] < 20 && values[handle] > -20) {
+				slider.noUiSlider.set(0);
+			} else if (values[handle] > 80) {
+				slider.noUiSlider.set(80);
+			} else if (values[handle] < -80) {
+				slider.noUiSlider.set(-80);
+			}
+		}else{
+			slider.noUiSlider.set(0);
+		}
+	});
+});
+
+
+
+var toggleSlider = document.getElementById('slider-toggle');
+
+noUiSlider.create(toggleSlider, {
+    orientation: "vertical",
+    start: 0,
+    range: {
+        'min': [0, 1],
+        'max': 1
+    },
+    format: wNumb({
+        decimals: 0
+    })
+});
+
+toggleSlider.noUiSlider.on('update', function (values, handle) {
+    if (values[handle] === '0') {
+        toggleSlider.classList.add('off');
+		state = 0;
+		textElement.innerHTML = "<b>" + "off" + "</b>";
+    } else {
+        toggleSlider.classList.remove('off');
+		state = 1;
+		textElement.innerHTML = "<b>" + "on" + "</b>";
+    }
+});
+
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+	if(state == 1){
+		
+
+		var texto_motores = '(' + motores.join(',') + ')';
+		textElement.innerHTML = "<b>" + texto_motores + "</b>";
+			
+			
+			
+		// Definimos la URL que vamos a solicitar via Ajax
+		var ajax_url = "http://192.168.4.1/move.do";
+
+		// Definirmos los parámetros que vamos a enviar
+		var params = "motor_a=" + motores[0] + "&motor_b=" + motores[1];
+
+		// Añadimos los parámetros a la URL
+		ajax_url += '?' + params;
+
+		// Creamos un nuevo objeto encargado de la comunicación
+		var ajax_request = new XMLHttpRequest();
+
+		// Definimos una función a ejecutar cuándo la solicitud Ajax tiene alguna información
+		ajax_request.onreadystatechange = function() {
+
+			// readyState es 4
+			if (ajax_request.readyState == 4 ) {
+
+				// Analizaos el responseText que contendrá el JSON enviado desde el servidor
+				//var jsonObj = JSON.parse( ajax_request.responseText );
+				// La variable jsonObj ahora contiene un objeto con los datos recibidos
+
+			}
+		}
+
+		// Definimos como queremos realizar la comunicación
+		ajax_request.open( "GET", ajax_url, true );
+
+		//Enviamos la solicitud
+		ajax_request.send();
+	}
+
+}, 200);
+
+
+</script>		</div>
+	</div>
+</section>
+
+</body>

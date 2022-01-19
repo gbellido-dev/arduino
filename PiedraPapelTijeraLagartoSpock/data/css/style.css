@@ -1,0 +1,237 @@
+body{
+  background: url(../img/trek.gif);
+  font-family: 'Titillium Web', sans-serif;
+  margin: 0;
+}
+
+
+
+
+
+.script {
+  font-family: "Seaweed Script";
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  position: relative;
+  margin:0;
+}
+.script span {
+  background-color: #222;
+  padding: 0.3em;
+  border-radius: 5px;
+}
+.script:before {
+  content:"";
+  display: block;
+  position: absolute;
+  z-index:-1;
+  top: 50%;
+  width: 100%;
+  border-bottom: 3px solid #fff;
+}
+
+
+
+
+
+
+
+#vs a{
+  text-decoration: none;
+  color: #ffffff;
+  background: orange;
+  padding: 10px;
+  box-shadow: 0px 0px 15px #000000;
+}
+
+#vs a:hover{
+  opacity: .8;
+}
+
+#contenedor{
+  width: 1200px;
+  margin: auto;
+}
+
+#opciones{
+  margin: 0 auto;
+  margin-top: 5%;
+  width: 100%;
+  min-width: 500px;
+  max-width: 650px; 
+  text-align: center;
+}
+
+#tumarcador{
+  margin-top: 10px;
+  display: inline-block;
+  width: 45%
+}
+
+#rhombre{
+  color: #ffffff;
+  float: left;
+  width: 150px;
+  height: 30px;
+  background: #000000;
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px #000000;
+}
+
+
+#mamarcador{
+  margin-top: 10px;
+  display: inline-block;
+  width: 45%
+}
+
+#rmaquina{
+  color: #ffffff;
+  float: right;
+  width: 150px;
+  height: 30px;
+  background: #000000;
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px #000000;
+}
+
+#titulo{
+  margin-bottom: 0px;
+  margin: 0 auto;
+  text-align: left;
+  width: 100%;
+}
+
+#titulo a{
+
+  margin-left: -120px;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+#comentarios{
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  background: rgba(0,0,0,0.50);
+  border-radius: 5px;
+}
+
+#juego{
+  margin: 0 auto;
+  text-align: left;
+  width: 100%;
+}
+
+#descargar{
+ display:  inline-block;
+}
+
+#descargar a{
+ padding: 15px; 
+ background: #FE2E2E;
+ border-radius: 5px;
+ text-decoration: none;
+ color: #ffffff;
+ box-shadow: 0px 0px 15px #000000;
+}
+
+#descargar a:hover{
+  opacity: .7;
+}
+
+#codigo{
+  display: inline-block;
+}
+
+#codigo a{
+  padding: 15px; 
+  background: #58FA82;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #ffffff;
+  box-shadow: 0px 0px 15px #000000;
+}
+
+#codigo a:hover{
+  opacity: .7;
+}
+
+
+#imgopciones{
+  background: url(http://www.azulweb.net/wp-content/uploads/2014/07/loggin.png) no-repeat rgba(500,500,500,0.70);
+  background-position: bottom right;
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px #000000;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+
+#instrucciones{
+  float: left;
+  text-align: right;
+  width: 20%;
+}
+
+#actualizar{
+  float: right;
+  text-align: left;
+  width: 27%;
+}
+
+#instrucciones img{
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px #888888;
+  opacity: .4;
+  -webkit-transition: width .5s,opacity .5s;
+  -moz-transition: width .5s,opacity .5s;
+  -o-transition: width .5s,opacity .5s;
+  -ms-transition: width .5s,opacity .5s;
+  transition: width .5s,opacity .5s;
+  }
+
+
+#instrucciones img:hover{
+  opacity: 1;
+  width: 270px;
+} 
+
+
+#usuario{
+  display: inline-block;
+}
+
+#maquina{
+  display: inline-block;
+}
+
+#vs{
+  display: inline-block;
+}
+
+.seleccion{
+  cursor: pointer;
+  opacity: .8;
+  width: 90px;
+  -webkit-transition: width .5s,opacity .5s;
+  -moz-transition: width .5s,opacity .5s;
+  -o-transition: width .5s,opacity .5s;
+  -ms-transition: width .5s,opacity .5s;
+  transition: width .5s,opacity .5s;
+}
+
+.seleccion:hover{
+  opacity: 1;
+  width: 100px;
+}
+
+.imgresultado {
+  width: 90px;
+}
+
+.fb-like{
+  float: right;
+}

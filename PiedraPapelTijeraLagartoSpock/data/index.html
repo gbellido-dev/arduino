@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+  <title>Super Piedra, papel, tijeras, lagarto o Spock</title>
+  <script src="js/ppt.js" language="javascript" type="text/javascript"></script>
+  <link rel="shortcut icon" href="img/spock.png" />
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type='text/css' href="fonts/style.css">
+  <link href='fonts/TitilliumWeb.css' rel='stylesheet' type='text/css'>
+</head>
+<body onload='getPlayerId()'>
+
+  <div id="contenedor"> 
+    <div id="instrucciones">
+      <img src="img/manual.png" width="50px"/> 
+    </div>
+    <div id="actualizar">
+      <a href="javascript:void(0)" onclick="sendReset()"><img src="img/actualizar.png" width="50px"/></a> 
+    </div>
+    <div id="opciones" >
+      <div id="titulo" >
+        <img src="img/logo.png" width="250px"/>
+		<p class="script"><span>Super Piedra, papel, tijeras, lagarto o Spock</span></p>
+        <br/>
+         <br/>
+      </div>
+      <div id="imgopciones" >
+        <div id="tumarcador">
+          <div id="rhombre"><i class="icon-user"></i> Player ¿?</div>
+        </div>
+		</br>
+        <img class="seleccion" src="img/piedra.png" onclick="PiedraFunction()"/>
+        <img class="seleccion" src="img/papel.png" onClick="PapelFunction()"/>
+        <img class="seleccion" src="img/tijera.png" onClick="TijeraFunction()"/>
+        <img class="seleccion" src="img/lagarto.png" onClick="LagartoFunction()"/>
+        <img class="seleccion" src="img/spock.png" onClick="SpockFunction()"/>
+        <br/>
+        <div class="imgresultado" id="usuario"></div>
+        <div  id="vs"></div>
+        <div class="imgresultado" id="oponente"></div>
+        <br/>
+        <div  id="resultado"></div>
+        <br/>
+      </div>
+      <div id="juego">
+        <br/>
+    </div>
+    <br/>
+    </div>
+  </div>
+</body>
+</html> 

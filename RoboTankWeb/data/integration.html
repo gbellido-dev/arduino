@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>RoboTank</title>
+        <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
+		<link href="./nouislider.css" rel="stylesheet">
+        <style>
+				
+		html, body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+        }
+        #left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 30%;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        #right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 30%;
+            background: rgba(0, 0, 255, 0.1);
+        }
+		
+		#box {
+			position: absolute;
+			right: 100%;
+			left: 100%;
+            top: 0;
+            height: 300px;
+            width: 40%;
+            background: rgba(0, 0, 255, 0.1);
+		}
+		
+		#red, #blue {
+			position: relative;
+			margin: 40px;
+			display: inline-block;
+			height: 200px;
+		}
+
+
+		#red .noUi-connect {
+			background: #FFFFFF;
+		}
+
+		#blue .noUi-connect {
+			background: #FFFFFF;
+		}
+
+		#slider-toggle {
+			margin: 30px;
+			display: inline-block;
+			height: 50px;
+		}
+		#slider-toggle.off .noUi-handle {
+			border-color: red;
+		}
+		
+        </style>
+    </head>
+    <body>	
+
+<div id="left"></div>
+      		<div id="box">
+    				<div class="sliders noUi-active" id="red"></div>
+    				<div id="slider-toggle"></div>
+    				<div class="sliders noUi-active" id="blue"></div>
+    		</div> 
+
+  	   <div id="right"></div>
+
+
+    		
+    		
+    
+    		
+    		
+            
+		
+        <script src="./nipplejs.js"></script>
+		<script src="./wNumb.js"></script>
+		<script src="./nouislider.js"></script>
+        <script>
+		
+		var giro = 0;
+		var avance = 0;
+		var altura = 0
+		var pinza = 0;
+		
+		//var textElement = document.getElementById('text');
+		
+            var joystickL = nipplejs.create({
+                zone: document.getElementById('left'),
+                mode: 'static',
+                position: { left: '50%', top: '50%' },
+                color: 'green',
+				multitouch : true,
+                size: 100,
+				lockX: true
+            });
+
+            var joystickR = nipplejs.create({
+                zone: document.getElementById('right'),
+                mode: 'static',
+                position: { left: '50%', top: '50%' },
+                color: 'red',
+				multitouch : true,
+                size: 100,
+				lockY: true
+            });
+			
+			
+			joystickR.on('end', function (evt, obj) {
+                altura = 0;
+                pinza = 0;
+				if(obj.x == 'undefined'){ obj.x = 0; }
+				if(obj.y == 'undefined'){ obj.y = 0; }
+				console.log('DiffX: ' + obj.x);
+				console.log('DiffY: ' + obj.y);
+            }).on('move', function(evt, obj) {	
+				if(obj.x == 'undefined'){ obj.x = 0; }
+				if(obj.y == 'undefined'){ obj.y = 0; }
+				obj.x = obj.x * (-1);
+				obj.y = obj.y * (-1);
+				console.log('DiffX: ' + obj.x);
+				console.log('DiffY: ' + obj.y);
+				if(obj.x < 0){
+					altura = -1;
+				}else if(obj.x > 0){
+					altura = 1;
+				}
+				
+				if(obj.y < 0){
+					pinza = -1;
+				}else if(obj.y > 0){
+					pinza = 1;
+				}
+
+			});
+			
+			joystickL.on('end', function (evt, obj) {
+                giro = 0;
+				avance = 0;
+				if(obj.x == 'undefined'){ obj.x = 0; }
+				if(obj.y == 'undefined'){ obj.y = 0; }
+				console.log('DiffX: ' + obj.x);
+				console.log('DiffY: ' + obj.y);
+            }).on('move', function(evt, obj) {
+				if(obj.x == 'undefined'){ obj.x = 0; }
+				if(obj.y == 'undefined'){ obj.y = 0; }
+				console.log('DiffX: ' + obj.x);
+				console.log('DiffY: ' + obj.y);
+				if(obj.x < 0){
+					giro = -1;
+				}else if(obj.x > 0){
+					giro = 1;
+				}
+				
+				if(obj.y < 0){
+					avance = -1;
+				}else if(obj.y > 0){
+					avance = 1;
+				}
+
+			});
+			
+			function debug(obj) {
+			  setTimeout(function() {
+				
+			  }, 0);
+			}
+			
+			
+			
+			
+			//var textElement = document.getElementById('text');
+			var sliders = document.getElementsByClassName('sliders');
+			var motores = [0, 0];
+			var state = 0;
+
+			[].slice.call(sliders).forEach(function (slider, index) {
+
+				noUiSlider.create(slider, {
+				start: [0],
+				connect: [true, false],
+				orientation: "vertical",
+				range: {
+					'min': [-100,5],
+					'20%': [-80, 10],
+					'50%': [0, 10],
+					'80%': [80, 5],
+					'max': 100
+				},
+				direction: 'rtl',
+				pips: {
+					mode: 'values',
+					values: [100, 0, -100],
+					stepped: true,
+					density: 4
+				}
+				});
+				
+
+				// Bind the motors changing function to the update event.
+				slider.noUiSlider.on('update', function () {
+					motores[index] = slider.noUiSlider.get();
+					
+				});
+				
+				
+				
+				slider.noUiSlider.on('change', function (values, handle) {
+					if(state == 1){
+						if (values[handle] < 20 && values[handle] > -20) {
+							slider.noUiSlider.set(0);
+						} else if (values[handle] > 80) {
+							slider.noUiSlider.set(80);
+						} else if (values[handle] < -80) {
+							slider.noUiSlider.set(-80);
+						}
+					}else{
+						slider.noUiSlider.set(0);
+					}
+				});
+			});
+
+
+
+			var toggleSlider = document.getElementById('slider-toggle');
+
+			noUiSlider.create(toggleSlider, {
+				orientation: "vertical",
+				start: 0,
+				range: {
+					'min': [0, 1],
+					'max': 1
+				},
+				format: wNumb({
+					decimals: 0
+				})
+			});
+
+			toggleSlider.noUiSlider.on('update', function (values, handle) {
+				if (values[handle] === '0') {
+					toggleSlider.classList.add('off');
+					state = 0;
+					//textElement.innerHTML = "<b>" + "off" + "</b>";
+				} else {
+					toggleSlider.classList.remove('off');
+					state = 1;
+					//textElement.innerHTML = "<b>" + "on" + "</b>";
+				}
+			});
+
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
+
+				if(state == 1){
+					
+
+					var texto_motores = '(' + motores.join(',') + ')';
+					//textElement.innerHTML = "<b>" + texto_motores + "</b>";
+						
+						
+						
+					// Definimos la URL que vamos a solicitar via Ajax
+					var ajax_url = "http://192.168.4.1/move.do";
+
+					// Definirmos los parámetros que vamos a enviar
+					var params = "motor_a=" + motores[0] + "&motor_b=" + motores[1];
+
+					// Añadimos los parámetros a la URL
+					ajax_url += '?' + params;
+
+					// Creamos un nuevo objeto encargado de la comunicación
+					var ajax_request = new XMLHttpRequest();
+
+					// Definimos una función a ejecutar cuándo la solicitud Ajax tiene alguna información
+					ajax_request.onreadystatechange = function() {
+
+						// readyState es 4
+						if (ajax_request.readyState == 4 ) {
+
+							// Analizaos el responseText que contendrá el JSON enviado desde el servidor
+							//var jsonObj = JSON.parse( ajax_request.responseText );
+							// La variable jsonObj ahora contiene un objeto con los datos recibidos
+
+						}
+					}
+
+					// Definimos como queremos realizar la comunicación
+					ajax_request.open( "GET", ajax_url, true );
+
+					//Enviamos la solicitud
+					ajax_request.send();
+				}
+
+			}, 200000000);
+        </script>
+    </body>
+</html>

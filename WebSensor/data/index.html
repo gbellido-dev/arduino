@@ -1,0 +1,157 @@
+<?php ob_start('ob_gzhandler') ?>
+<!DOCTYPE html>
+<html>
+<head>
+
+
+    <!--<link rel="stylesheet" href="../css/website.css" type="text/css" media="screen" />-->
+
+
+    <script src="RGraph.common.core.js" ></script>
+    <script src="RGraph.common.context.js" ></script>
+    <script src="RGraph.common.annotate.js" ></script>
+    <script src="RGraph.common.tooltips.js" ></script>
+    <script src="RGraph.common.zoom.js" ></script>
+    <script src="RGraph.thermometer.js" ></script>
+
+
+</head>
+<body style="background-image:linear-gradient(white,#7FFFD4);" >
+
+<table cellspacing="10" cellpadding="10">
+<TR>
+	<TD><H1>Tenperatura</H1> </TD>
+	<TD><H1>Hezetasuna</H1> </TD>
+</TR>
+<TR>
+	<TD>
+    <div style="position: relative">
+        <canvas id="thermo1" width="100" height="350" style="float: left">[No canvas support]</canvas>
+    </div>
+</TD>
+<TD>
+	<div style="position: relative">
+        <canvas id="thermo2" width="100" height="350" style="float: left">[No canvas support]</canvas>
+    </div>
+	</TD>
+	<td>
+	<img height="400" src="cerrada.png" id="matrix"/>
+	</td>
+</TR>
+<TR>
+ <TD><H1><div id="cajaTemperatura">0</div></H1></TD>
+ <TD><H1><div id="cajaHumedad">0</div></H1></TD>
+</TR>
+</table>
+    <script>
+	
+	var thermometer;
+	var tactual = 20;
+	var hactual = 20;
+	var vactual = 0;
+	
+        window.onload = function ()
+        {
+        
+            thermometer1 = new RGraph.Thermometer('thermo1', 0,100,16);
+            thermometer1.Set('chart.colors', ['red']);
+            thermometer1.Draw();
+			
+			thermometer2 = new RGraph.Thermometer('thermo2', 0,100,16);
+            thermometer2.Set('chart.colors', ['blue']);
+            thermometer2.Draw();
+        
+        }
+		
+		function sendData(led) {
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			  document.getElementById("LEDState").innerHTML =
+			  this.responseText;
+			}
+		  };
+		  xhttp.open("GET", "setLED?LEDstate="+led, true);
+		  xhttp.send();
+		}
+		
+		
+		function getHumedad() {
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			  document.getElementById("cajaHumedad").innerHTML =
+			  this.responseText;
+			  hactual = this.responseText;
+			}
+		  };
+		  xhttp.open("GET", "readhumidity", true);
+		  xhttp.send();
+		}
+		
+		function getTemperatura() {
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			  document.getElementById("cajaTemperatura").innerHTML =
+			  this.responseText;
+			  
+			  tactual = this.responseText;
+			}
+		  };
+		  xhttp.open("GET", "readtemperature", true);
+		  xhttp.send();
+		}
+		
+		function getVentana() {
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			  vactual = this.responseText;
+			}
+		  };
+		  xhttp.open("GET", "readventana", true);
+		  xhttp.send();
+		}
+		
+		
+		function cambiar () {
+			document.getElementById('matrix').src = "abierta.png";
+		}
+ 
+		function volver () {
+			document.getElementById('matrix').src = "cerrada.png";
+		}
+
+		setInterval(function() {
+		  // Call a function repetatively with 2 Second interval
+		  getTemperatura();
+		  getHumedad();
+		  getVentana();
+		  setTemperatura();
+		  setHumedad();
+		  if(vactual == 1){
+			cambiar ();
+		  }
+		  else{
+			volver();
+		  }
+		}, 1000); //1000mSeconds update rate
+
+
+		function setTemperatura() {
+			  thermometer1.value = tactual;
+			  thermometer1.DrawBackground();
+			  thermometer1.DrawBar();
+		}
+		
+		function setHumedad() {
+			  thermometer2.value = hactual;
+			  thermometer2.DrawBackground();
+			  thermometer2.DrawBar();
+			//  thermometer.DrawLabels();
+		}
+    </script>
+    
+</body>
+</html>
