@@ -1,0 +1,46 @@
+#######################################
+# Syntax Coloring Map For Finite-State
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+FiniteState     KEYWORD1
+Action          KEYWORD1
+TimerType       KEYWORD1
+TriState        KEYWORD1
+EventArgs       KEYWORD1
+Transition      KEYWORD1
+id_t            KEYWORD1
+time_t          KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+Predicate       KEYWORD2
+Process         KEYWORD2
+EventHandler    KEYWORD2
+begin           KEYWORD2
+transition      KEYWORD2
+execute         KEYWORD2
+id              KEYWORD2
+size            KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+FINITE_STATE_VERSION  LITERAL1
+FINITE_STATE_AUTHOR   LITERAL1
+STATE_TRANSITION_MIN  LITERAL1
+STATE_TRANSITION_MAX  LITERAL1
+NONE                  LITERAL1
+EXIT                  LITERAL1
+ENTRY                 LITERAL1
+NOT_USED              LITERAL1
+TRANS_TIMER           LITERAL1
+PREDIC_TIMER          LITERAL1
+FALSE_TIMER           LITERAL1
+TRUE_TIMER            LITERAL1
+Unspecified           LITERAL1
+False                 LITERAL1
+True                  LITERAL1
